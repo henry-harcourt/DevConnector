@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 const gravatar = require('gravatar')
 const bcrypt = require('bcryptjs')
+const jwt = require('jsonwebtoken')
 const config = require('config')
 const { check, validationResult } = require('express-validator')
 
@@ -70,14 +71,33 @@ router.post('/', [
             // here the user is now saved to the database.
             await user.save()
 
-            res.send('User registered')
+            // return the jsonwebtoken. this talks to mongoDB. user.id accesses _id in mongoDB
+            const payload = {
+                user: {
+                    id: user.id
+                }
+            }
+            
+            // sign the token. pass in the payload, pass in the secret from jwt in ./config through config.get(). Then there is an optional expiration timer.
+            // then if there are no errors, send the token back to the client 
+            jwt.sign(
+                payload, 
+                config.get('jwtSecret'),
+                { expiresIn: 360000000 },
+                (err, token) => {
+                    if(err) throw err
+                    res.json({ token })
+                })
+
+
+            // res.send('User registered')
 
         } catch (err) {
             console.error(err.message)
             res.status(500).send('Server error')
         }
 
-        // return the jsonwebtoken
+
 
 
     })
