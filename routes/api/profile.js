@@ -9,6 +9,9 @@ const User = require('../../models/User')
 // @route GET   api/profile/me
 // @description Get current users profile
 // @access      Private (based on users auth token)
+
+// whatever routes you wwant to protect with auth, you just add as a parameter to the route.
+// and import the middleware of course. 
 router.get('/me', auth, async (req, res) => {
     try {
 
@@ -17,7 +20,7 @@ router.get('/me', auth, async (req, res) => {
         if (!profile) {
             return res.status(400).json({ msg: 'There is no profile for this user' })
         }
-        return res.json(profile)
+        res.json(profile)
     } catch (errr) {
         console.error(err.message)
         res.status(500).send('Server Error')
@@ -39,7 +42,7 @@ router.post('/', [auth, [
 ], async (req, res) => {
     const errors = validationResult(req)
     if (!errors.isEmpty()) {
-        return res.status(400).json({ error: errors.array() })
+        return res.status(400).json({ errors: errors.array() })
     }
 
     const {
@@ -66,9 +69,9 @@ router.post('/', [auth, [
     if (location) profileFields.location = location
     if (bio) profileFields.bio = bio
     if (status) profileFields.status = status
-    if (githubusername) profileFields = githubusername
+    if (githubusername) profileFields.githubusername = githubusername
     if (skills) {
-        profileFields.skills = skills.split(',').map(skill => skill.trim())
+        profileFields.skills = skills.split(',').map(skill => skill.trim()) // .split turns string into an array. The ',' is a delimiter
     }
 
     //Build Social object
