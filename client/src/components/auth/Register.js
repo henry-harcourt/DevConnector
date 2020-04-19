@@ -1,7 +1,10 @@
 import React, { Fragment, useState } from 'react'
+import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
+import { setAlert } from '../../actions/alert'
+import PropTypes from 'prop-types'
 
-const Register = () => {
+const Register = ({ setAlert }) => {  // props is destructured here with curly braces and the action is passed straight in.
 
     //formData is an object with all the field values.
     //setFormData is the function used to update the state
@@ -23,7 +26,7 @@ const Register = () => {
     const onSubmit = async e => {
         e.preventDefault()
         if (password !== password2) {
-            console.log('Passwords do not match') // checking that sign up passwords match
+            setAlert('Passwords do not match', 'danger') // checking that sign up passwords match. Takes the setAlert action.
         } else {
             console.log('SUCCESS')
 
@@ -109,4 +112,13 @@ const Register = () => {
     )
 }
 
-export default Register
+Register.propTypes = {
+    setAlert: PropTypes.func.isRequired,
+}
+
+// --- whenever you bring in an action to a component you need to pass it as a parameter to connect in the form of an object
+// which will take all the objects you are passing in. This allows us to access the action with props.<actionName> 
+// props is enterd into the parameters of the component (at top) ---
+// you also need to pass it any state that you want to map. in this case state is null
+
+export default connect(null, { setAlert })(Register)
