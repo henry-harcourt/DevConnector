@@ -2,9 +2,10 @@ import React, { Fragment, useState } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { setAlert } from '../../actions/alert'
+import { register } from '../../actions/auth'
 import PropTypes from 'prop-types'
 
-const Register = ({ setAlert }) => {  // props is destructured here with curly braces and the action is passed straight in.
+const Register = ({ setAlert, register }) => {  // props is destructured here with curly braces and the action is passed straight in.
 
     //formData is an object with all the field values.
     //setFormData is the function used to update the state
@@ -28,7 +29,7 @@ const Register = ({ setAlert }) => {  // props is destructured here with curly b
         if (password !== password2) {
             setAlert('Passwords do not match', 'danger') // checking that sign up passwords match. Takes the setAlert action.
         } else {
-            console.log('SUCCESS')
+            register({ name, email, password })
 
             // below is how you would handle this through the component. However I will now change it to be handled through a redux 
             // action instead.
@@ -66,7 +67,7 @@ const Register = ({ setAlert }) => {  // props is destructured here with curly b
                         placeholder="Name"
                         name="name" value={name}
                         onChange={e => onChange(e)}
-                        required />
+                         />
                 </div>
                 <div className="form-group">
                     <input
@@ -75,7 +76,7 @@ const Register = ({ setAlert }) => {  // props is destructured here with curly b
                         name="email"
                         value={email}
                         onChange={e => onChange(e)}
-                        required />
+                         />
                     <small className="form-text"
                     >This site uses Gravatar so if you want a profile image, use a
             Gravatar email</small
@@ -87,9 +88,7 @@ const Register = ({ setAlert }) => {  // props is destructured here with curly b
                         placeholder="Password"
                         name="password"
                         value={password}
-                        onChange={e => onChange(e)}
-                        required
-                        minLength="6"
+                        onChange={e => onChange(e)}                     
                     />
                 </div>
                 <div className="form-group">
@@ -99,8 +98,6 @@ const Register = ({ setAlert }) => {  // props is destructured here with curly b
                         name="password2"
                         value={password2}
                         onChange={e => onChange(e)}
-                        required
-                        minLength="6"
                     />
                 </div>
                 <input type="submit" className="btn btn-primary" value="Register" />
@@ -114,6 +111,7 @@ const Register = ({ setAlert }) => {  // props is destructured here with curly b
 
 Register.propTypes = {
     setAlert: PropTypes.func.isRequired,
+    register: PropTypes.func.isRequired
 }
 
 // --- whenever you bring in an action to a component you need to pass it as a parameter to connect in the form of an object
@@ -121,4 +119,7 @@ Register.propTypes = {
 // props is enterd into the parameters of the component (at top) ---
 // you also need to pass it any state that you want to map. in this case state is null
 
-export default connect(null, { setAlert })(Register)
+export default connect(
+    null, 
+    { setAlert, register }
+    )(Register)
