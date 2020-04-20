@@ -1,11 +1,11 @@
 import React, { Fragment, useState } from 'react'
 import { connect } from 'react-redux'
-import { Link } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
 import { setAlert } from '../../actions/alert'
 import { register } from '../../actions/auth'
 import PropTypes from 'prop-types'
 
-const Register = ({ setAlert, register }) => {  // props is destructured here with curly braces and the action is passed straight in.
+const Register = ({ setAlert, register, isAuthenticated }) => {  // props is destructured here with curly braces and the action is passed straight in.
 
     //formData is an object with all the field values.
     //setFormData is the function used to update the state
@@ -55,6 +55,10 @@ const Register = ({ setAlert, register }) => {  // props is destructured here wi
             //         console.error(err.response.data)
             // }
         }
+
+        if (isAuthenticated) {
+            return <Redirect to='/dashboard' />
+        }
     }
     return (
         <Fragment>
@@ -67,7 +71,7 @@ const Register = ({ setAlert, register }) => {  // props is destructured here wi
                         placeholder="Name"
                         name="name" value={name}
                         onChange={e => onChange(e)}
-                         />
+                    />
                 </div>
                 <div className="form-group">
                     <input
@@ -76,7 +80,7 @@ const Register = ({ setAlert, register }) => {  // props is destructured here wi
                         name="email"
                         value={email}
                         onChange={e => onChange(e)}
-                         />
+                    />
                     <small className="form-text"
                     >This site uses Gravatar so if you want a profile image, use a
             Gravatar email</small
@@ -88,7 +92,7 @@ const Register = ({ setAlert, register }) => {  // props is destructured here wi
                         placeholder="Password"
                         name="password"
                         value={password}
-                        onChange={e => onChange(e)}                     
+                        onChange={e => onChange(e)}
                     />
                 </div>
                 <div className="form-group">
@@ -111,8 +115,13 @@ const Register = ({ setAlert, register }) => {  // props is destructured here wi
 
 Register.propTypes = {
     setAlert: PropTypes.func.isRequired,
-    register: PropTypes.func.isRequired
+    register: PropTypes.func.isRequired,
+    isAuthenticated: PropTypes.bool,
 }
+
+const mapStateToProps = state => ({
+    isAuthenticated: state.auth.isAuthenticated
+})
 
 // --- whenever you bring in an action to a component you need to pass it as a parameter to connect in the form of an object
 // which will take all the objects you are passing in. This allows us to access the action with props.<actionName> 
@@ -120,6 +129,6 @@ Register.propTypes = {
 // you also need to pass it any state that you want to map. in this case state is null
 
 export default connect(
-    null, 
+    mapStateToProps,
     { setAlert, register }
-    )(Register)
+)(Register)
