@@ -112,10 +112,7 @@ const EditProfile = ({ profile: { profile, loading }, createProfile, getCurrentP
                 </div>
                 <div className="form-group">
                     <input type="text" placeholder="* Skills" name="skills" value={skills} onChange={e => onChange(e)} />
-                    <small className="form-text"
-                    >Please use comma separated values (eg.
-            HTML,CSS,JavaScript,PHP)</small
-                    >
+                    <small className="form-text">Please use comma separated values (eg.HTML,CSS,JavaScript,PHP)</small>
                 </div>
                 <div className="form-group">
                     <input
@@ -125,9 +122,7 @@ const EditProfile = ({ profile: { profile, loading }, createProfile, getCurrentP
                         value={githubusername} onChange={e => onChange(e)}
                     />
                     <small className="form-text"
-                    >If you want your latest repos and a Github link, include your
-            username</small
-                    >
+                    >If you want your latest repos and a Github link, include your username</small>
                 </div>
                 <div className="form-group">
                     <textarea placeholder="A short bio of yourself" name="bio" value={bio} onChange={e => onChange(e)}></textarea>
