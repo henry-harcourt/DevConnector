@@ -9,7 +9,7 @@ import { getProfileById, getProfiles, getCurrentProfile } from '../../actions/pr
 const Profile = ({ getProfileById, profile: { profile, loading }, auth, match }) => {
     useEffect(() => {
         getProfileById(match.params.id)
-    }, [getProfileById])
+    }, [getProfileById, match.params.id])
 
     return (
         <Fragment>
@@ -37,7 +37,7 @@ Profile.propTypes = {
     auth: PropTypes.object.isRequired,
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
     profile: state.profile,
     auth: state.auth
 })
