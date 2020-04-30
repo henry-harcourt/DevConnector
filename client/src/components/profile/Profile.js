@@ -9,8 +9,9 @@ import { getProfileById, getProfiles, getCurrentProfile } from '../../actions/pr
 const Profile = ({ getProfileById, profile: { profile, loading }, auth, match }) => {
     useEffect(() => {
         getProfileById(match.params.id)
-    }, [getProfileById, match.params.id])
+    }, [getProfileById])
 
+ // if the user clicks on their own profile they will see an edit profile link option
     return (
         <Fragment>
             {profile === null || loading ? (
@@ -19,12 +20,14 @@ const Profile = ({ getProfileById, profile: { profile, loading }, auth, match })
                     <Fragment>
                         <Link to='/profiles' className="btn btn-light">
                             Back to profiles
-                </Link>
-                {auth.isAuthenticated && 
-                    auth.loading === false && 
-                        auth.user._id === profile.user._id && (<Link to='/edit-profile' className="btn btn-dark">
-                            Edit Profile
-                        </Link>)}
+                        </Link>
+                        {auth.isAuthenticated &&
+                            auth.loading === false &&
+                            auth.user._id === profile.user._id && (
+                                <Link to='/edit-profile' className="btn btn-dark">
+                                    Edit Profile
+                                </Link>
+                            )}
                     </Fragment>
                 )}
         </Fragment>
