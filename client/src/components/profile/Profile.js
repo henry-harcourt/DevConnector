@@ -4,6 +4,8 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import Spinner from '../layouts/Spinner'
 import { getProfileById, getProfiles, getCurrentProfile } from '../../actions/profile'
+import ProfileTop from './ProfileTop'
+import ProfileAbout from './ProfileAbout'
 
 // match gets the url and can identify user id in props
 const Profile = ({ getProfileById, profile: { profile, loading }, auth, match }) => {
@@ -11,7 +13,7 @@ const Profile = ({ getProfileById, profile: { profile, loading }, auth, match })
         getProfileById(match.params.id)
     }, [getProfileById])
 
- // if the user clicks on their own profile they will see an edit profile link option
+    // if the user clicks on their own profile they will see an edit profile link option
     return (
         <Fragment>
             {profile === null || loading ? (
@@ -28,6 +30,10 @@ const Profile = ({ getProfileById, profile: { profile, loading }, auth, match })
                                     Edit Profile
                                 </Link>
                             )}
+                        <div className="profile-grid my-1">
+                            <ProfileTop profile={profile} />
+                            <ProfileAbout profile={profile} />
+                        </div>
                     </Fragment>
                 )}
         </Fragment>
