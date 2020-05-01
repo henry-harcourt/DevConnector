@@ -8,6 +8,7 @@ import ProfileTop from './ProfileTop'
 import ProfileAbout from './ProfileAbout'
 import ProfileExperience from './ProfileExperience'
 import ProfileEducation from './ProfileEducation'
+import ProfileGithub from './ProfileGithub'
 
 // match gets the url and can identify user id in props
 const Profile = ({ getProfileById, profile: { profile, loading }, auth, match }) => {
@@ -56,8 +57,11 @@ const Profile = ({ getProfileById, profile: { profile, loading }, auth, match })
                                             education={education}
                                         />
                                     ))}
-                                </Fragment>) : (<h4>No experience credentials</h4>)}
+                                </Fragment>) : (<h4>No education credentials</h4>)}
                             </div>
+                            {profile.githubusername && (
+                                <ProfileGithub username={profile.githubusername}/>
+                            )}
                         </div>
                     </Fragment>
                 )}
