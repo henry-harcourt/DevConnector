@@ -1,7 +1,8 @@
 import {
     GET_POSTS,
     POST_ERROR,
-    UPDATE_LIKE
+    UPDATE_LIKE,
+    DELETE_POST
 } from '../actions/types'
 
 const initialState = {
@@ -19,6 +20,14 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 posts: payload,
+                loading: false
+            }
+        case DELETE_POST:
+            return {
+                ...state,
+                // line below will return all posts except for the one that has the id that matches the payload (the post id)
+                // because that is the deleted post
+                posts: state.posts.filter(post => post._id !== payload),
                 loading: false
             }
         case POST_ERROR:
