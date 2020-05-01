@@ -36,7 +36,8 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 error: payload,
-                loading: false
+                loading: false,
+                profile: null // this is a late addition security fix. Clears the state so guests can't see user info.
             }
         case CLEAR_PROFILE:
             return {
