@@ -2,7 +2,8 @@ import {
     GET_POSTS,
     POST_ERROR,
     UPDATE_LIKE,
-    DELETE_POST
+    DELETE_POST,
+    ADD_POST
 } from '../actions/types'
 
 const initialState = {
@@ -20,6 +21,13 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 posts: payload,
+                loading: false
+            }
+        case ADD_POST:
+            return {
+                ...state,
+                // line below will return all posts in state plus the paylaod which holds the new post.
+                posts: [payload, ...state.posts],
                 loading: false
             }
         case DELETE_POST:
