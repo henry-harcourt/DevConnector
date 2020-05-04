@@ -3,7 +3,10 @@ import {
     POST_ERROR,
     UPDATE_LIKE,
     DELETE_POST,
-    ADD_POST
+    ADD_POST,
+    GET_POST,
+    ADD_COMMENT,
+    REMOVE_COMMENT
 } from '../actions/types'
 
 const initialState = {
@@ -21,6 +24,13 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 posts: payload,
+                loading: false
+            }
+        // single post for creating discussion off post
+        case GET_POST:
+            return {
+                ...state,
+                post: payload,
                 loading: false
             }
         case ADD_POST:
@@ -51,6 +61,23 @@ export default function (state = initialState, action) {
                 // if its a match then - return the post as is, then - return the post with ammended likes.
                 // final condition: if the id doesnt match - retun the post and forget any like changes.  
                 posts: state.posts.map(post => post._id === payload.id ? { ...post, likes: payload.likes } : post),
+                loading: false
+            }
+        case ADD_COMMENT:
+            return {
+                ...state,
+                post: { ...state.post, comments: payload},
+                loading: false
+            }
+        case REMOVE_COMMENT:
+            return {
+                ...state,
+                post: {
+                    ...state.post,
+                    comments: state.post.comments.filter(
+                        comment => comment._id !== payload  // shows all comments that are not equal to the payload (because it has just been deleted)
+                    )
+                },
                 loading: false
             }
         default:
