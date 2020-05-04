@@ -1,2 +1,2 @@
-# DevConnector---MERN-course
+# DevConnector
 Project built following MERN stack Udemy course
