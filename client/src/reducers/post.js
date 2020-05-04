@@ -3,7 +3,8 @@ import {
     POST_ERROR,
     UPDATE_LIKE,
     DELETE_POST,
-    ADD_POST
+    ADD_POST,
+    GET_POST
 } from '../actions/types'
 
 const initialState = {
@@ -21,6 +22,13 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 posts: payload,
+                loading: false
+            }
+        // single post for creating discussion off post
+        case GET_POST:
+            return {
+                ...state,
+                post: payload,
                 loading: false
             }
         case ADD_POST:
