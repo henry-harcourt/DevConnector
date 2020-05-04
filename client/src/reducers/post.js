@@ -73,7 +73,8 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 post: {
-                    ...state.post.comments.filter(
+                    ...state.post,
+                    comments: state.post.comments.filter(
                         comment => comment._id !== payload  // shows all comments that are not equal to the payload (because it has just been deleted)
                     )
                 },

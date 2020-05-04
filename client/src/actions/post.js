@@ -160,9 +160,10 @@ export const deleteComment = (postId, commentId) => async dispatch => {
 
         dispatch(setAlert('Comment Removed', 'success'))
     } catch (err) {
-        dispatch({
-            type: POST_ERROR,
-            payload: { msg: err.response.statusText, status: err.response.status }
-        })
+        console.log('test')
+        //  dispatch({
+        //      type: POST_ERROR,
+        //      payload: { msg: err.response.statusText, status: err.response.status }
+        // })
     }
 }
