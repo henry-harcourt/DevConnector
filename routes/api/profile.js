@@ -13,12 +13,10 @@ const Post = require('../../models/Posts')
 // @description Get current users profile
 // @access      Private (based on users auth token)
 
-// whatever routes you wwant to protect with auth, you just add as a parameter to the route.
-// and import the middleware of course. 
 router.get('/me', auth, async (req, res) => {
     try {
 
-        const profile = await Profile.findOne({ user: req.user.id }).populate('user', ['name', 'avatar'])   // req.user.id pertains to the Profile model user field with id
+        const profile = await Profile.findOne({ user: req.user.id }).populate('user', ['name', 'avatar'])
 
         if (!profile) {
             return res.status(400).json({ msg: 'There is no profile for this user' })
@@ -63,7 +61,6 @@ router.post('/', [auth, [
         facebook
     } = req.body
 
-    // Build profile object
     const profileFields = {}
     profileFields.user = req.user.id
 
@@ -74,10 +71,9 @@ router.post('/', [auth, [
     if (status) profileFields.status = status
     if (githubusername) profileFields.githubusername = githubusername
     if (skills) {
-        profileFields.skills = skills.split(',').map(skill => skill.trim()) // .split turns string into an array. The ',' is a delimiter
+        profileFields.skills = skills.split(',').map(skill => skill.trim())
     }
 
-    //Build Social object
     profileFields.social = {}
 
     if (youtube) profileFields.youtube = youtube
@@ -86,12 +82,11 @@ router.post('/', [auth, [
     if (linkedin) profileFields.linkedin = linkedin
     if (instagram) profileFields.instagram = instagram
 
-    //find profile
     try {
         let profile = await Profile.findOne({ user: req.user.id })
 
         if (profile) {
-            // update profile
+
             profile = await Profile.findOneAndUpdate(
                 { user: req.user.id },
                 { $set: profileFields },
@@ -101,7 +96,6 @@ router.post('/', [auth, [
             return res.json(profile)
         }
 
-        // create profile if not found
         profile = new Profile(profileFields)
 
         await profile.save()
@@ -198,7 +192,6 @@ router.put('/experience', [auth, [
         description
     } = req.body
 
-    // creates an objec with the data thatt the user submits
     const NewExp = {
         title,
         company,
@@ -212,7 +205,7 @@ router.put('/experience', [auth, [
     try {
         const profile = await Profile.findOne({ user: req.user.id })
 
-        profile.experience.unshift(NewExp) // unshfit method is same as .push except it sends new data to the front of the array
+        profile.experience.unshift(NewExp) 
         await profile.save()
 
         res.json(profile)
@@ -229,8 +222,6 @@ router.put('/experience', [auth, [
 router.delete('/experience/:exp_id', auth, async (req, res) => {
     try {
         const profile = await Profile.findOne({ user: req.user.id })
-
-        // Get the remove index, map through and find exp_id, splice it out, then saving profile
 
         const removeIndex = profile.experience
             .map(item => item.id)
@@ -280,7 +271,6 @@ router.put('/education', [auth, [
         description
     } = req.body
 
-    // creates an objec with the data thatt the user submits
     const NewEdu = {
         school,
         degree,
@@ -294,7 +284,7 @@ router.put('/education', [auth, [
     try {
         const profile = await Profile.findOne({ user: req.user.id })
 
-        profile.education.unshift(NewEdu) // unshfit method is same as .push except it sends new data to the front of the array
+        profile.education.unshift(NewEdu) 
         await profile.save()
 
         res.json(profile)
@@ -311,8 +301,6 @@ router.put('/education', [auth, [
 router.delete('/education/:exp_id', auth, async (req, res) => {
     try {
         const profile = await Profile.findOne({ user: req.user.id })
-
-        // Get the remove index, map through and find exp_id, splice it out, then saving profile
 
         const removeIndex = profile.education
             .map(item => item.id)

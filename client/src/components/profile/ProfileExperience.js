@@ -6,8 +6,6 @@ const ProfileExperience = ({
     experience: {
         company,
         title,
-        location,
-        current,
         to,
         from,
         description

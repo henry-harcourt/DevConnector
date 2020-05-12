@@ -10,9 +10,7 @@ import {
     PROFILE_ERROR,
     GET_REPOS
 } from './types'
-// import { set } from 'mongoose'
 
-//Get current users profile
 export const getCurrentProfile = () => async dispatch => {
     try {
         const res = await axios.get('/api/profile/me')
@@ -29,7 +27,6 @@ export const getCurrentProfile = () => async dispatch => {
     }
 }
 
-// Get all profiles
 export const getProfiles = () => async dispatch => {
     dispatch({ type: CLEAR_PROFILE })
 
@@ -48,7 +45,6 @@ export const getProfiles = () => async dispatch => {
     }
 }
 
-// Get profile by ID
 export const getProfileById = userId => async dispatch => {
     try {
         const res = await axios.get(`/api/profile/user/${userId}`)
@@ -65,7 +61,6 @@ export const getProfileById = userId => async dispatch => {
     }
 }
 
-// Get github repos
 export const getGithubRepos = username => async dispatch => {
 
     try {
@@ -83,10 +78,6 @@ export const getGithubRepos = username => async dispatch => {
     }
 }
 
-// Create or update profile
-
-// history object has a redirect method inbuilt that will redirect to a clientside route
-// edit will recognise if we are editing an existing profile or making a new one
 export const createProfile = (formData, history, edit = false) => async dispatch => {
     try {
         const config = {
@@ -122,7 +113,6 @@ export const createProfile = (formData, history, edit = false) => async dispatch
     }
 }
 
-// Add experience 
 
 export const addExperience = (formData, history, edit = false) => async dispatch => {
     try {
@@ -159,7 +149,6 @@ export const addExperience = (formData, history, edit = false) => async dispatch
     }
 }
 
-// Add education 
 
 export const addEducation = (formData, history, edit = false) => async dispatch => {
     try {
@@ -196,7 +185,6 @@ export const addEducation = (formData, history, edit = false) => async dispatch 
     }
 }
 
-// Delete experience
 export const deleteExperience = id => async dispatch => {
     try {
         const res = await axios.delete(`/api/profile/experience/${id}`)
@@ -215,7 +203,6 @@ export const deleteExperience = id => async dispatch => {
     }
 }
 
-// Delete education
 export const deleteEducation = id => async dispatch => {
     try {
         const res = await axios.delete(`/api/profile/education/${id}`)
@@ -234,7 +221,6 @@ export const deleteEducation = id => async dispatch => {
     }
 }
 
-// Delete account
 export const deleteAccount = () => async dispatch => {
     if (window.confirm('Are you sure? This can NOT be undone.')) {
 

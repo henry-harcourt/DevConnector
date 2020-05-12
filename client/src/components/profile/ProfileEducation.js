@@ -7,7 +7,6 @@ const ProfileEducation = ({
         school,
         degree,
         fieldofstudy,
-        current,
         to,
         from,
         description

@@ -10,13 +10,11 @@ import ProfileExperience from './ProfileExperience'
 import ProfileEducation from './ProfileEducation'
 import ProfileGithub from './ProfileGithub'
 
-// match gets the url and can identify user id in props
 const Profile = ({ getProfileById, profile: { profile, loading }, auth, match }) => {
     useEffect(() => {
         getProfileById(match.params.id)
     }, [getProfileById])
 
-    // if the user clicks on their own profile they will see an edit profile link option
     return (
         <Fragment>
             {profile === null || loading ? (

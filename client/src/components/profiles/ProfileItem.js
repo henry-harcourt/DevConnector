@@ -2,8 +2,6 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
-
-//you can destructure props in this way so that you can acccess them without 'this.props.etc'. as seen in div tag below 
 const ProfileItem = ({ profile: {
     user: { _id, name, avatar },
     status,

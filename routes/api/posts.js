@@ -23,7 +23,7 @@ router.post('/', [auth, [
     }
 
     try {
-        // we're logged in so we have an auth token and can use req.user.id to access id
+       
         const user = await User.findById(req.user.id).select('-password')
 
         const newPost = new Post({
@@ -49,7 +49,7 @@ router.post('/', [auth, [
 
 router.get('/', auth, async (req, res) => {
     try {
-        const posts = await Post.find().sort({ date: -1 }) // sorts by date. -1 will sort by most recent first
+        const posts = await Post.find().sort({ date: -1 }) 
         res.json(posts)
     } catch (err) {
         console.error(err.message)
@@ -64,7 +64,7 @@ router.get('/', auth, async (req, res) => {
 
 router.get('/:id', auth, async (req, res) => {
     try {
-        const post = await Post.findById(req.params.id) // req.params.id will get the id from the URL
+        const post = await Post.findById(req.params.id) 
 
         if (!post) {
             return res.status(404).json({ msg: 'post not found' })
@@ -74,7 +74,6 @@ router.get('/:id', auth, async (req, res) => {
     } catch (err) {
         console.error(err.message)
 
-        // if the error object has a property called kind, check to see if it's equal to object ID. If it is then there is no post found.
         if (err.kind === 'ObjectId') {
             return res.status(404).json({ msg: 'post not found' })
         }
@@ -94,8 +93,7 @@ router.delete('/:id', auth, async (req, res) => {
         if (!post) {
             return res.status(404).json({ msg: 'post not found' })
         }
-        //Check user. We can't have users who didnt make the post able to delete a post.
-        // however. req.user.id is a string, post.user is not - it is an object id. So we must use toString method so that they will match.
+
         if (post.user.toString() !== req.user.id) {
             return res.status(401).json({ msg: 'user not authorized' })
         }
@@ -121,14 +119,12 @@ router.delete('/:id', auth, async (req, res) => {
 router.put('/like/:id', auth, async (req, res) => {
     try {
         const post = await Post.findById(req.params.id)
-
-        //Check if post has already been liked by user. This works by checking the like array of the Post model to if the user id matches.
-        // if the like array is longer than 0 then the post has alrerady been liked. 
+ 
         if (post.likes.filter(like => like.user.toString() === req.user.id).length > 0) {
             return res.status(400).json({ msg: 'Post already liked' })
         }
 
-        post.likes.unshift({ user: req.user.id }) // the user that is logged in
+        post.likes.unshift({ user: req.user.id })
 
         await post.save()
 
@@ -145,14 +141,11 @@ router.put('/like/:id', auth, async (req, res) => {
 router.put('/unlike/:id', auth, async (req, res) => {
     try {
         const post = await Post.findById(req.params.id)
-
-        //Check if post has already been liked by user. This works by checking the like array of the Post model to if the user id matches.
-        // if the like array is longer than 0 then the post has alrerady been liked. 
+ 
         if (post.likes.filter(like => like.user.toString() === req.user.id).length === 0) {
             return res.status(400).json({ msg: 'Post has not yet been liked' })
         }
 
-        // Get the remove index
         const removeIndex = post.likes.map(like => like.user.toString().indexOf(req.user.id))
 
         post.likes.splice(removeIndex, 1)
@@ -181,7 +174,6 @@ router.post('/comment/:id', [auth, [
     }
 
     try {
-        // we're logged in so we have an auth token and can use req.user.id to access id
         const user = await User.findById(req.user.id).select('-password')
         const post = await Post.findById(req.params.id)
 
@@ -212,20 +204,16 @@ router.delete('/comment/:id/:comment_id', auth, async (req, res) => {
     try {
         const post = await Post.findById(req.params.id)
 
-        // Pull out the comment from the post
         const comment = post.comments.find(comment => comment.id === req.params.comment_id)
 
-        //make sure the comment exists
         if (!comment) {
             return res.status(404).json({ msg: 'Comment does not exist' })
         }
 
-        // check user is the one who made the comment
         if (comment.user.toString() !== req.user.id) {
             return res.status(401).json({ msg: 'User not authorized' })
         }
 
-        // Get the remove index
         const removeIndex = post.comments.map(comment => comment.user.toString().indexOf(req.user.id))
 
         post.comments.splice(removeIndex, 1)

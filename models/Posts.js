@@ -1,8 +1,6 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
-
-// connects post to a user. references user model
 const PostSchema = new Schema({
     user: {
         type: Schema.Types.ObjectId,
@@ -21,7 +19,7 @@ const PostSchema = new Schema({
     likes: [
         {
             user: {
-                type: Schema.Types.ObjectId, // single user can only like posts once. includes array of user object IDs 
+                type: Schema.Types.ObjectId,  
                 ref: 'users'
             }
         }

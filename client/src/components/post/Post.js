@@ -12,9 +12,7 @@ const Post = ({ getPost, post: { post, loading }, match }) => {
     useEffect(() => {
         getPost(match.params.id)
     }, [getPost, match.params.id])
-
-    // this is just a copy of the PostItem component but it has show actions set to false so that it doesn't have any of the 
-    // action buttons on the post visible. 
+ 
     return loading || post === null ? (
         <Spinner />
     ) : (

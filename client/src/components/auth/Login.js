@@ -6,10 +6,6 @@ import { login } from '../../actions/auth'
 
 const Login = ({ login, isAuthenticated }) => {
 
-    //formData is an object with all the field values.
-    //setFormData is the function used to update the state
-    //useState is a function that sets the default state
-
     const [formData, setFormData] = useState({
         email: '',
         password: ''
@@ -17,8 +13,6 @@ const Login = ({ login, isAuthenticated }) => {
 
     const { email, password } = formData
 
-    // spread operator will create a copy of formData state
-    //the [e.target.name] is a way of setting the onChange to update all fields in the form using the 'name' key
     const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value })
 
     const onSubmit = async e => {
@@ -27,7 +21,6 @@ const Login = ({ login, isAuthenticated }) => {
 
     }
 
-    // redirerct if logged in
     if (isAuthenticated) {
         return <Redirect to='/dashboard' />
     }

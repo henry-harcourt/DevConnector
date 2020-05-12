@@ -65,8 +65,6 @@ const PostItem = ({
 }
 
 
-// this code below sets the default state of showAction to true. This is to allow the buttons on the post (like, delete etc)
-// to be visible. If it is false then those buttons will not render on the page. It is implemented above around the button Fragment.
 PostItem.defaultProps = {
     showActions: true
 }

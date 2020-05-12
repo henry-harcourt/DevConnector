@@ -11,9 +11,7 @@ import {
     CLEAR_PROFILE
 } from './types'
 import setAuthToken from '../utils/setAuthToken'
-
-
-// Laod user. sets the global header with the token if there is one. 
+ 
 export const loadUser = () => async (dispatch) => {
     if(localStorage.token) {
         setAuthToken(localStorage.token)
@@ -34,7 +32,6 @@ export const loadUser = () => async (dispatch) => {
 
 }
 
-// Register user
 export const register = ({ name, email, password }) => async (dispatch) => {
     const config = {
         headers: {
@@ -66,9 +63,6 @@ export const register = ({ name, email, password }) => async (dispatch) => {
     }
 }
 
-
-// Login user
-
 export const login = (email, password) => async (dispatch) => {
     const config = {
         headers: {
@@ -99,8 +93,6 @@ export const login = (email, password) => async (dispatch) => {
         })
     }
 }
-
-// Logout / clear profile
 
 export const logout = () => dispatch => {
     dispatch({ type: LOGOUT })

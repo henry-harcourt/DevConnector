@@ -3,7 +3,6 @@ import { Link, withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { createProfile, getCurrentProfile } from '../../actions/profile'
-// import profile from '../../reducers/profile'
 
 const EditProfile = ({ profile: { profile, loading }, createProfile, getCurrentProfile, history }) => {
     const [formData, setFormData] = useState({
@@ -41,7 +40,7 @@ const EditProfile = ({ profile: { profile, loading }, createProfile, getCurrentP
             instagram: loading || !profile.social ? '' : profile.instagram
         })
 
-    }, [loading, getCurrentProfile]) // the array at the end deterrmines the condition of the useEffect. In this case we want it to run when loading is triggered.
+    }, [loading, getCurrentProfile])
 
     const {
         company,

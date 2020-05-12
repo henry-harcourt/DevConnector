@@ -12,9 +12,6 @@ const ProfileTop = ({
     }
 }) => {
 
-    // Below is a good example of checking to see if a condition exists. i.e if the user has a youtube account registered in their profile
-    // then the code below will check the social object to see that and - if it exists, renders that data. 
-    // {x && {x}} checks to see if x exists then does or doesn't render it.
     return (
         <div className="profile-top bg-primary p-2">
             <img
